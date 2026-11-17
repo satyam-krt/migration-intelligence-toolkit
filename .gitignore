@@ -151,6 +151,31 @@ vite.config.ts.timestamp-*
 # Turbo Repo (https://turborepo.dev/)
 .turbo
 
+# Migration Intelligence Toolkit
+
+# macOS metadata
+.DS_Store
+.AppleDouble
+
+# Windows metadata
+Thumbs.db
+Desktop.ini
+
+# Test and build artifacts
+coverage/
+.nyc_output/
+
+# Local development files
+*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Temporary files
+*.tmp
+*.bak
+
 # Nx (https://nx.dev/)
 .nx/cache
 .nx/workspace-data
