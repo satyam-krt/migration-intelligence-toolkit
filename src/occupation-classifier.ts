@@ -63,7 +63,8 @@ const RULES: OccupationRule[] = [
       "it support",
       "network engineer",
     ],
-    explanation: "The title matches a technology, software, data, or IT-related occupation.",
+    explanation:
+      "The title matches a technology, software, data, or IT-related occupation.",
   },
   {
     category: "engineering",
@@ -79,7 +80,8 @@ const RULES: OccupationRule[] = [
       "process engineer",
       "electronics engineer",
     ],
-    explanation: "The title matches a professional engineering occupation.",
+    explanation:
+      "The title matches a professional engineering occupation.",
   },
   {
     category: "healthcare",
@@ -100,7 +102,8 @@ const RULES: OccupationRule[] = [
       "midwife",
       "occupational therapist",
     ],
-    explanation: "The title matches a healthcare or clinical occupation.",
+    explanation:
+      "The title matches a healthcare or clinical occupation.",
   },
   {
     category: "finance",
@@ -118,7 +121,8 @@ const RULES: OccupationRule[] = [
       "portfolio manager",
       "actuary",
     ],
-    explanation: "The title matches an accounting, finance, investment, or risk-related occupation.",
+    explanation:
+      "The title matches an accounting, finance, investment, or risk-related occupation.",
   },
   {
     category: "education",
@@ -134,7 +138,8 @@ const RULES: OccupationRule[] = [
       "education consultant",
       "special education teacher",
     ],
-    explanation: "The title matches a teaching, academic, or research occupation.",
+    explanation:
+      "The title matches a teaching, academic, or research occupation.",
   },
   {
     category: "sales",
@@ -150,7 +155,8 @@ const RULES: OccupationRule[] = [
       "insurance agent",
       "retail sales associate",
     ],
-    explanation: "The title matches a sales, business development, or client acquisition occupation.",
+    explanation:
+      "The title matches a sales, business development, or client acquisition occupation.",
   },
   {
     category: "marketing",
@@ -168,7 +174,8 @@ const RULES: OccupationRule[] = [
       "communications specialist",
       "advertising executive",
     ],
-    explanation: "The title matches a marketing, advertising, communications, or public relations occupation.",
+    explanation:
+      "The title matches a marketing, advertising, communications, or public relations occupation.",
   },
   {
     category: "hospitality",
@@ -184,7 +191,8 @@ const RULES: OccupationRule[] = [
       "hospitality manager",
       "travel consultant",
     ],
-    explanation: "The title matches a hospitality, food service, or travel-related occupation.",
+    explanation:
+      "The title matches a hospitality, food service, or travel-related occupation.",
   },
   {
     category: "construction",
@@ -201,7 +209,8 @@ const RULES: OccupationRule[] = [
       "hvac technician",
       "building inspector",
     ],
-    explanation: "The title matches a construction, building, or skilled-trade occupation.",
+    explanation:
+      "The title matches a construction, building, or skilled-trade occupation.",
   },
   {
     category: "transportation",
@@ -217,7 +226,8 @@ const RULES: OccupationRule[] = [
       "aircraft pilot",
       "ship captain",
     ],
-    explanation: "The title matches a transport, logistics, or supply-chain occupation.",
+    explanation:
+      "The title matches a transport, logistics, or supply-chain occupation.",
   },
   {
     category: "administration",
@@ -233,7 +243,8 @@ const RULES: OccupationRule[] = [
       "data entry operator",
       "customer service representative",
     ],
-    explanation: "The title matches an administrative, HR, recruitment, or office-support occupation.",
+    explanation:
+      "The title matches an administrative, HR, recruitment, or office-support occupation.",
   },
 ];
 
@@ -263,6 +274,7 @@ export function classifyOccupation(title: string): ClassificationResult {
       rule,
       matchedTerms: rule.terms.filter((term) => {
         const normalizedTerm = normalizeTitle(term);
+
         return (
           normalizedTitle === normalizedTerm ||
           normalizedTitle.includes(normalizedTerm)
@@ -276,6 +288,7 @@ export function classifyOccupation(title: string): ClassificationResult {
         Math.max(...a.matchedTerms.map((term) => term.length))
     );
 
+  // Check that a matching rule exists before accessing the first result.
   if (matches.length === 0) {
     return {
       input: title,
@@ -288,7 +301,9 @@ export function classifyOccupation(title: string): ClassificationResult {
     };
   }
 
-  const bestMatch = matches[0];
+  // The non-null assertion is safe because the empty-array case was handled above.
+  const bestMatch = matches[0]!;
+
   const longestMatch = Math.max(
     ...bestMatch.matchedTerms.map((term) => term.length)
   );
@@ -300,7 +315,9 @@ export function classifyOccupation(title: string): ClassificationResult {
     matchedTerms: bestMatch.matchedTerms,
     confidence: Math.min(
       0.95,
-      Number((0.65 + longestMatch / normalizedTitle.length * 0.3).toFixed(2))
+      Number(
+        (0.65 + (longestMatch / normalizedTitle.length) * 0.3).toFixed(2)
+      )
     ),
     explanation: bestMatch.rule.explanation,
   };
