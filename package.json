@@ -4,11 +4,23 @@
   "version": "0.1.0",
   "description": "An open-source toolkit for occupation classification and global migration intelligence.",
   "type": "module",
-  "main": "dist/occupation-classifier.js",
-  "types": "dist/occupation-classifier.d.ts",
+  "main": "./dist/occupation-classifier.js",
+  "types": "./dist/occupation-classifier.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/occupation-classifier.d.ts",
+      "import": "./dist/occupation-classifier.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc",
-    "test": "node --test"
+    "test": "npm run build && node --test",
+    "prepublishOnly": "npm test"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
